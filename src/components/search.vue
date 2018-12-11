@@ -5,11 +5,21 @@
     <input
       type="text"
       placeholder="搜索"
+      @click="toSearch"
     >
   </div>
 </template>
 <script>
-export default {};
+export default {
+  methods: {
+    toSearch() {
+      // 使用代码的方式 跳转到 搜索页
+      wx.navigateTo({
+        url: "/pages/search/main"
+      });
+    }
+  }
+};
 </script>
 <style lang="scss">
 // 定义变量
