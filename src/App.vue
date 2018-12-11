@@ -5,6 +5,10 @@ export default {
 </script>
 
 <style>
+  /* 顶部搜索栏的样式 */
+.nav-container {
+  padding-top: 100rpx;
+}
 /*
   字体图标1.0.1   字体图标文件只能使用线上路径或者 base64
 */
@@ -123,4 +127,6 @@ export default {
 .icon-xuanze-fill:before {
   content: "\e615";
 }
+
+
 </style>

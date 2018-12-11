@@ -1,13 +1,7 @@
 <template>
-  <div class="index">
-    <!-- 顶部的搜索栏 -->
-    <div class="nav">
-      <i class="iconfont icon-sousuo"></i>
-      <input
-        type="text"
-        placeholder="搜索"
-      >
-    </div>
+  <div class="index nav-container">
+    <!-- 使用search 组件 -->
+    <search></search>
     <!-- 轮播图 -->
     <swiper
       indicator-dots
@@ -81,6 +75,10 @@
 <script>
 // 导入 自己抽取的 hxios
 import hxios from "../../utils/index";
+
+// 引入 search
+import search from '../../components/search'
+
 export default {
   data: function() {
     return {
@@ -102,6 +100,10 @@ export default {
         // duration: 300
       });
     }
+  },
+  // 注册组件
+  components:{
+    search
   },
   // 获取数据
   created() {
@@ -145,33 +147,9 @@ export default {
 // 定义变量
 $uRed: #ff2d4a;
 .index {
-  padding-top: 100rpx;
   background-color: #ccc;
 }
-.nav {
-  padding: 20rpx 16rpx;
-  background-color: $uRed;
-  position: fixed;
-  width: 100%;
-  left: 0;
-  top: 0;
-  //   怪异盒模型
-  box-sizing: border-box;
-  input {
-    background-color: white;
-    height: 60rpx;
-    text-align: center;
-    color: #bbb;
-    font-size: 24rpx;
-  }
-  i.icon-sousuo {
-    color: #bbb;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-220%, -50%);
-  }
-}
+
 // 轮播图
 .swiper {
   image {
@@ -235,6 +213,9 @@ $uRed: #ff2d4a;
       img {
         height: 235rpx;
       }
+    }
+    .item:first-child img{
+      height: 480rpx;
     }
   }
 }
