@@ -10,7 +10,7 @@
 	"miniprogramRoot": "dist/wx/",
 	"compileType": "miniprogram",
 	"appid": "wxf38fa8abade84a24",
-	"projectname": "yougo",
+	"projectname": "yougo2",
 	"condition": {
 		"search": {
 			"current": -1,
@@ -29,12 +29,25 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 2,
 			"list": [
 				{
 					"id": -1,
 					"name": "分类",
-					"pathName": "pages/category/main"
+					"pathName": "pages/category/main",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "直接去搜索页",
+					"pathName": "pages/search/main",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "直接去详情页",
+					"pathName": "pages/detail/main",
+					"query": "id=890"
 				}
 			]
 		}
