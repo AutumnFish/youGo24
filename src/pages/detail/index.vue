@@ -54,12 +54,38 @@
 
     <!-- tab栏切换 -->
     <div class="tab-bar">
-      <div class="bar-item" @click="tabIndex=0" :class="{active:tabIndex==0}">图文介绍</div>
-      <div class="bar-item" @click="tabIndex=1" :class="{active:tabIndex==1}">规格参数</div>
+      <div
+        class="bar-item"
+        @click="tabIndex=0"
+        :class="{active:tabIndex==0}"
+      >图文介绍</div>
+      <div
+        class="bar-item"
+        @click="tabIndex=1"
+        :class="{active:tabIndex==1}"
+      >规格参数</div>
     </div>
     <div class="tab-content">
-      <div class="content-item" v-show="tabIndex==0">1</div>
-      <div class="content-item" v-show="tabIndex==1">2</div>
+      <!-- 商品详情 -->
+      <div
+        class="content-item"
+        v-show="tabIndex==0"
+        v-html="goodsInfo.goods_introduce"
+      ></div>
+      <!-- 规格参数 -->
+      <div
+        class="content-item"
+        v-show="tabIndex==1"
+      >
+        <div
+          class='row'
+          v-for="(item, index) in goodsInfo.attrs"
+          :key="item.goods_id"
+        >
+          <div class='col'>{{item.attr_name}}</div>
+          <div class='col'>{{item.attr_value}}</div>
+        </div>
+      </div>
     </div>
 
     <!-- 底部的控制器区域 -->
@@ -71,11 +97,17 @@
         <i class='iconfont icon-kefu'></i>
         联系客服
       </div>
-      <div class="item">
+      <div
+        class="item"
+        @click="toCart"
+      >
         <i class='iconfont icon-gouwuche'></i>
         购物车
       </div>
-      <button class="cart">加入购物车</button>
+      <button
+        @click="add2Cart(goodsInfo.goods_id)"
+        class="cart"
+      >加入购物车</button>
       <button class="buy">立即购买</button>
     </div>
   </div>
@@ -83,6 +115,9 @@
 <script>
 // 导入hxios
 import hxios from "../../utils/index";
+
+// 导入购物车的操纵模块
+import cart from "../../utils/cart";
 export default {
   data: function() {
     return {
@@ -91,9 +126,9 @@ export default {
       // 商品详情
       goodsInfo: {},
       // 收货地址
-      address:'',
+      address: "",
       // tan显示的索引
-      tabIndex:0
+      tabIndex: 0
     };
   },
   // 事件
@@ -120,7 +155,7 @@ export default {
       // 微信小程序中 也需要上下文绑定
       // let that = this;
       wx.chooseAddress({
-        success:(res)=>{
+        success: res => {
           // console.log(res.userName);
           // console.log(res.postalCode);
           // console.log(res.provinceName);
@@ -129,9 +164,22 @@ export default {
           // console.log(res.detailInfo);
           // console.log(res.nationalCode);
           // console.log(res.telNumber);
-          this.address = res.provinceName+res.cityName+res.countyName;
+          this.address = res.provinceName + res.cityName + res.countyName;
         }
       });
+    },
+    // 加入购物车
+    add2Cart(goods_id) {
+      // console.log(goods_id);
+      // 调用自己封装的函数
+      cart.add2Cart(goods_id);
+    },
+    // 去购物车页面
+    toCart() {
+      console.log("跳!!");
+      // wx.navigateTo({ url: "/pages/cart/main" });
+      // 购物车页面 是配置在 tabbar中 不能使用navigateTo 进行跳转 需要使用另外一个函数
+      wx.switchTab({ url: "/pages/cart/main" });
     }
   },
   onLoad(options) {
@@ -269,29 +317,48 @@ swiper-item {
   //     color:$uRed;
   //   }
   // }
-
 }
 // 自己实现tab栏
-.tab-bar{
+.tab-bar {
   display: flex;
   padding-top: 18rpx;
   background-color: gray;
-  .bar-item{
-    flex:1;
+  .bar-item {
+    flex: 1;
     background: white;
     height: 100rpx;
     line-height: 100rpx;
-    font-size:22rpx;
+    font-size: 22rpx;
     text-align: center;
-    &.active{
-      color:$uRed;
+    &.active {
+      color: $uRed;
       border-bottom: 8rpx solid $uRed;
     }
   }
 }
-.tab-content{
-  .content-item{}
+.tab-content {
+  // 规格参数
+  .content-item {
+    padding-top: 10rpx;
+    .row {
+      padding: 0 10rpx;
+      box-sizing: border-box;
+      display: flex;
+      .col {
+        flex: 1;
+        height: 88rpx;
+        line-height: 88rpx;
+        text-align: center;
+        font-size: 22rpx;
+        border: 1rpx solid gray;
+        // 合并 高度方向上的 线段
+        margin-top: -1rpx;
+        &.col:last-child {
+          // 合并宽度方向上的线段
+          margin-left: -1rpx;
+        }
+      }
+    }
+  }
 }
-
-
 </style>
